@@ -47,23 +47,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-// catch 404 and forward to error handler
-// TODO: Fix 404 error handler and render out the error pug template.
+// catch 404 and forward it to error handler
 app.use(function (req, res, next) {
   const err = new Error('404 Error');
-  res.status(404);
-  next(createError(404));
+  err.status = 404;
+  next(err);
 });
 
 // error handler
 app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
+  err.status = err.status || 500;
   res.status(err.status || 500);
-  res.render('error');
+
+  // 404 errors
+  if (err.status === 404) {
+    res.render('page-not-found', { title: 'Page Not Found | 404 Error' });
+  }
+
+  res.locals.message = 'Server Error';
+  res.locals.description = 'Sorry! There was an unexpected error on the server.';
+  res.locals.error = err;
+  res.render('error', { title: 'Server Error' });
 });
 
 module.exports = app;
