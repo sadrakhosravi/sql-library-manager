@@ -40,13 +40,18 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+// Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
+// TODO: Fix 404 error handler and render out the error pug template.
 app.use(function (req, res, next) {
+  const err = new Error('404 Error');
+  res.status(404);
   next(createError(404));
 });
 

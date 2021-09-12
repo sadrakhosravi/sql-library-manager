@@ -3,11 +3,11 @@ const { Book } = require('../models');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+router.get('/', async (req, res, next) => {
   // res.render('index', { title: 'Express' });
-  Book.findAll().then(books => {
-    console.log(books);
-  });
+
+  const books = await Book.findAll();
+  res.json(books);
 });
 
 module.exports = router;
