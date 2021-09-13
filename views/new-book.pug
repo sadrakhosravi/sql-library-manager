@@ -2,7 +2,13 @@ extends layout
 
 block content
     h1 New Book
-    form
+    if isDataValid===false
+        <h2 class="error">Oooops!</h2>
+        <ul class="error">
+            <li>Title is required</li>
+            <li>Author is required</li>
+        </ul>
+    form(method='post' action='/books/new')
       p
         label(for='title') Title
         input#title(name='title', type='text')
