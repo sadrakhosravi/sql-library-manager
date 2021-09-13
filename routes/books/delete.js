@@ -6,9 +6,8 @@ const router = express.Router();
 router.post('/:id/delete', async (req, res, next) => {
   const id = req.params.id;
   // find the book by id and delete it
-  const book = Book.findByPk(id).then(book => {
-    return book.destroy();
-  });
+  const bookToDelete = await Book.findByPk(id);
+  await bookToDelete.destroy();
 
   res.redirect('/books');
 });
