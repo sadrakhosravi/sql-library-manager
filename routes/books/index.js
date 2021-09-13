@@ -5,6 +5,7 @@ const router = express.Router();
 // Routes
 router.use(require('./new'));
 router.use(require('./update'));
+router.use(require('./delete'));
 
 /* GET /books page. Show full list of books */
 router.get('/', async (req, res, next) => {

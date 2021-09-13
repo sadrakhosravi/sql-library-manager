@@ -5,7 +5,6 @@ const router = express.Router();
 
 app.use(express.urlencoded({ extended: true }));
 
-// Path relative to /books
 /* GET /books/new page. Show new book form */
 router.get('/new', async (req, res, next) => {
   res.render('new-book');
