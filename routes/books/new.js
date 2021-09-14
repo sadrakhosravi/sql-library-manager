@@ -17,19 +17,27 @@ router.post('/new', async (req, res, next) => {
   const genre = req.body.genre;
   const year = req.body.year;
 
-  if (!title || !author || !genre || !year) {
-    res.render('new-book', { isDataValid: false });
-    return;
+  try {
+    await Book.create({
+      title,
+      author,
+      genre,
+      year,
+    });
+    res.redirect('/books');
+  } catch (error) {
+    if (error.name === 'SequelizeValidationError') {
+      const err = error.errors.map(err => err.path);
+      const isDataValid = false;
+      let titleRequired = false;
+      let authorRequired = false;
+
+      err.includes('title') ? (titleRequired = true) : (titleRequired = false);
+      err.includes('author') ? (authorRequired = true) : (authorRequired = false);
+
+      res.render('new-book', { isDataValid, titleRequired, authorRequired });
+    }
   }
-
-  const book = await Book.create({
-    title,
-    author,
-    genre,
-    year,
-  });
-
-  res.render('new-book');
 });
 
 module.exports = router;

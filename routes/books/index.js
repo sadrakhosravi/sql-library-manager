@@ -2,11 +2,6 @@ const express = require('express');
 const { Book } = require('../../models');
 const router = express.Router();
 
-// Routes
-router.use(require('./new'));
-router.use(require('./update'));
-router.use(require('./delete'));
-
 /* GET /books page. Show full list of books */
 router.get('/', async (req, res, next) => {
   // get all the books from the database.
@@ -25,5 +20,10 @@ router.get('/', async (req, res, next) => {
     books,
   });
 });
+
+// Routes
+router.use(require('./new'));
+router.use(require('./update'));
+router.use(require('./delete'));
 
 module.exports = router;

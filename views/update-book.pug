@@ -2,7 +2,14 @@ extends layout
 
 block content
     h1 Update Book
-
+    if isDataValid===false
+        <h2 class="error">Oooops!</h2>
+        <ul class="error">
+            if titleRequired
+                <li>Title is required</li>
+            if authorRequired
+                <li>Author is required</li>
+        </ul>
     form(method='post' action=`/books/${book.id}` onsubmit="return confirm('Do you really want to update this book?');")
         p
             label(for='title') Title
